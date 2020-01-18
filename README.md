@@ -2,6 +2,13 @@
 
 제가 만든 다운로더의 통합판입니다.
 
+
+# Release
+
+https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases/tag/v2.0
+
+
+
 # 다운로더 파일들
 
 https://github.com/kdrkdrkdr/E-HentaiDownloader
