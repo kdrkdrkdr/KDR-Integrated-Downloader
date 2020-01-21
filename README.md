@@ -5,7 +5,16 @@
 
 # Release 여기서 받아가세요.
 
-https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases/tag/v2.0
+https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases
 
 
-# 이후에 더 추가할 예정입니다.
+
+# 현재 다운로드 기능한 사이트 리스트
+
+- https://e-hentai.org
+- https://hiyobi.me
+- https://marumaru.soy
+- https://comic.naver.com
+- https://syosetu.com
+- https://toonkor.rent
+- https://pixiv.net
