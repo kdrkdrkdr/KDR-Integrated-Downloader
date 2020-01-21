@@ -9,7 +9,7 @@ https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases
 
 
 
-# 현재 다운로드 기능한 사이트 리스트
+# 사이트 리스트
 
 - https://e-hentai.org
 - https://hiyobi.me
