@@ -7,7 +7,7 @@ from click import clear as ClearWindow
 from KDR_DOWNLOADER import ( 
     e_hentai_downloader, hiyobi_downloader, marumaru_downloader, 
     naver_wt_downloader, syosetu_downloader, toonkor_downloader,
-    pixiv_downloader,
+    pixiv_downloader, 
 )
 
 
@@ -58,12 +58,16 @@ if __name__ == "__main__":
                     '\n4. NaverWebtoon 다운로더     '
                     '\n5. Syosetu 다운로더          '
                     '\n6. Toonkor 다운로더          '
-                    '\n7. Pixiv 다운로더           '
+                    '\n7. Pixiv 다운로더            '
                     '\n\n>> '
                 )
             )
 
-            DownloaderLIST[select-1].main()
+            if 0 < select < len(DownloaderLIST) + 1: 
+                DownloaderLIST[select-1].main()
+            else:
+                ClearWindow()
+                PrintInfo('다시 선택해주세요.')
 
                 
         except ( ValueError, IndexError ):
