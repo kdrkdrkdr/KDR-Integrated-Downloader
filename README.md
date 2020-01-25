@@ -18,3 +18,7 @@ https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases
 - https://syosetu.com
 - https://toonkor.rent
 - https://pixiv.net
+
+
+# *주의사항*
+이 프로그램을 불법적으로 사용시, 사용자 본인에게 책임이 있음을 알려드립니다.
