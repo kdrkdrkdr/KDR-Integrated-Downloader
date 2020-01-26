@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 from multiprocessing import freeze_support, cpu_count, Pool
 from signal import signal, SIGINT, SIG_IGN
 from sys import exit as terminate
