@@ -1,0 +1,7 @@
+bs4
+requests
+reportlab
+ping3
+Pillow
+click
+keyboard
