@@ -312,9 +312,8 @@ def hSearch():
             ClearWindow()
             PrintInfo("다시 입력해주세요.")
 
-        
 
-def hDownload(mLink=''):
+def hDownload():
     while True:
         try:
             mLink = str(input("다운로드할 동인지의 링크를 입력하세요. (exit 입력하면 다운로드 종료) : ")).replace(' ', '')

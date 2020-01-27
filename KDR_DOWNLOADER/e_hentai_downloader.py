@@ -17,6 +17,7 @@ from random import choice
 from urllib.parse import urlparse
 from threading import Thread
 from queue import Queue
+from keyboard import read_key
 
 
 gAddress = 'https://e-hentai.org/g/'
@@ -268,14 +269,12 @@ def Search():
                         if sWord.replace(' ', '') == 'exit':
                             ClearWindow(); break
 
-                        sPage = int(input("몇쪽까지 검색할지 입력하세요. (0을 입력하면 검색종료) : "))
-                        if sPage <= 0: 
-                            ClearWindow(); break
+                        sPage = 1
                     
-                        finish = False
+                        morePage = True
                         ClearWindow()
-                        for i in range(sPage):
-                            url = "https://e-hentai.org/?page={}&f_search={}".format(i, sWord)
+                        while True:
+                            url = "https://e-hentai.org/?page={}&f_search={}".format(sPage, sWord)
                             soup = FastGetSoup(url)
 
                             try:
@@ -301,12 +300,48 @@ def Search():
                                     print('\n제목 : {}'.format(title))
                                     print('링크 : {}\n'.format(link))
 
-                            if finish == True:
+                            
+
+                            PrintInfo("이전페이지: 아래 방향키, 다음 페이지: 위 방향키, 검색종료: Esc키")
+                            while True:
+                                try:
+                                    rk = read_key()
+
+                                    if rk == 'down':
+                                        if sPage-1 != 0:
+                                            sPage -= 1
+                                        else:
+                                            PrintInfo("첫 페이지 입니다.")
+                                            continue
+                                    
+                                    if rk == 'up':
+                                        page += 1
+
+                                    if rk == 'esc':
+                                        morePage = False
+
+                                    
+                                    if rk in ['down', 'up', 'esc']:
+                                        break
+
+
+                                except ( KeyboardInterrupt, EOFError ):
+                                    pass
+
+                            if morePage == False:
+                                ClearWindow()
                                 break
 
-                            if finish == False:
-                                print("="*30)
-                                PrintInfo("{}페이지의 검색 결과입니다.".format(i+1))
+
+
+
+
+
+
+
+
+
+
                                 
                     except ( ValueError, EOFError, KeyboardInterrupt, UnboundLocalError, NameError ):
                         ClearWindow()

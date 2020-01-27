@@ -106,7 +106,7 @@ def MakePDF(ImageList, Filename, DirLoc):
 def GetSoup(queue, url):
     while True:
         try:
-            html = s.get(url, headers=header).text
+            html = get(url, headers=header).text
             soup = BeautifulSoup(html, hParser)
             break
         except (exceptions.ChunkedEncodingError, exceptions.SSLError, exceptions.Timeout, exceptions.ConnectionError):
@@ -134,7 +134,7 @@ def ImageDownload(filename, url):
     while True:
         try:
             with open(f"{filename}", 'wb') as f:
-                resp = s.get(url, headers=header, ).content
+                resp = get(url, headers=header, ).content
                 f.write(resp)
                 break
 
