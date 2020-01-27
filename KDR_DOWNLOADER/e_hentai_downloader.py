@@ -269,7 +269,7 @@ def Search():
                         if sWord.replace(' ', '') == 'exit':
                             ClearWindow(); break
 
-                        sPage = 1
+                        sPage = 0
                     
                         morePage = True
                         ClearWindow()
@@ -288,7 +288,6 @@ def Search():
                             for t in tr:
                                 if "No unfiltered results in this page range. You either requested an invalid page or used too aggressive filters." in t.text:
                                     PrintInfo("모두 검색했습니다.")
-                                    finish = True
                                     break
 
                                 td = t.find_all('td', {'class':'gl3c glname'})
@@ -308,14 +307,14 @@ def Search():
                                     rk = read_key()
 
                                     if rk == 'down':
-                                        if sPage-1 != 0:
+                                        if sPage-1 != -1:
                                             sPage -= 1
                                         else:
                                             PrintInfo("첫 페이지 입니다.")
                                             continue
                                     
                                     if rk == 'up':
-                                        page += 1
+                                        sPage += 1
 
                                     if rk == 'esc':
                                         morePage = False
@@ -331,16 +330,6 @@ def Search():
                             if morePage == False:
                                 ClearWindow()
                                 break
-
-
-
-
-
-
-
-
-
-
 
                                 
                     except ( ValueError, EOFError, KeyboardInterrupt, UnboundLocalError, NameError ):
@@ -359,21 +348,7 @@ def Search():
             ClearWindow()
             PrintInfo('다시 입력해주세요.')
 
-# pages = (pageCount // 40) + 1
-# iURLlist = []
 
-# for i in range(pages):
-#     url = gLink + "/?p={}".format(i)
-#     soup = FastGetSoup(url)
-#     imageURL = soup.find('div', {'id':'gdt'}).find_all('a')
-
-#     for imgURL in imageURL:
-#         iURL = imgURL['href']
-#         iSoup = FastGetSoup(iURL)
-#         realIMG = iSoup.find('img', {'id':'img'})['src']
-
-#         if not realIMG in iURLlist:
-#             iURLlist.append(realIMG)
 
 def AppendURLs(IMGsHtml_ONE_PAGE, iURLlist):
     for imgURL in IMGsHtml_ONE_PAGE:
