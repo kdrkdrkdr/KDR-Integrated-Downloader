@@ -254,6 +254,8 @@ def GetGalleryInfo(gNum):
 def hSearch():
     while True:
         try:
+            print("검색방법>> 검색어1 | 태그:태그이름 | 검색어2")
+            print("'|' 로 태그 및 검색어 구분합니다.\n")
             kWord = str(input("\n검색할 동인지 이름을 입력하세요. (exit 입력하면 검색종료) : ")).replace(' ', '')
             if kWord.lower() == 'exit': ClearWindow(); break
 
