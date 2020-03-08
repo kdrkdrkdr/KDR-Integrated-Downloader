@@ -2,7 +2,7 @@
 
 from bs4 import BeautifulSoup
 from requests import get, exceptions, Session, adapters
-from reportlab.pdfgen.canvas import Canvas
+from img2pdf import convert as pdfConvert
 from signal import signal, SIGINT, SIG_IGN
 from ping3 import ping
 from sys import exit as terminate
@@ -21,13 +21,16 @@ from queue import Queue
 baseURL = "https://hiyobi.me"
 
 class HostHeaderSSLAdapter(adapters.HTTPAdapter):
+    def __init__(self, hostURL):
+        adapters.HTTPAdapter.__init__(self)
+        self.hostURL = hostURL
     
     def resolve(self, hostname):
         dnsList = [
             '1.1.1.1',
             '1.0.0.1',
         ]
-        resolutions = {'hiyobi.me': choice(dnsList)}
+        resolutions = {self.hostURL: choice(dnsList)}
         return resolutions.get(hostname)
 
 
@@ -54,8 +57,10 @@ class HostHeaderSSLAdapter(adapters.HTTPAdapter):
 
 
 s = Session()
+s.mount('https://', HostHeaderSSLAdapter('hiyobi.me'))
 
-s.mount('https://', HostHeaderSSLAdapter())
+cdn = Session()
+cdn.mount('https://', HostHeaderSSLAdapter('cdn.hiyobi.me'))
 
 hParser = 'html.parser'
 
@@ -127,33 +132,17 @@ def GetIMGsSize(imgPath):
 
 
 
+
 def MakePDF(ImageList, Filename, DirLoc):
-    while True:
-        try:
-            c = Canvas(Filename)
-            mask = [0, 0, 0, 0, 0, 0]
-
-            if len(ImageList) == 1: 
-                IMGsSize = GetIMGsSize(ImageList[0])
-            else:
-                IMGsSize = GetIMGsSize(ImageList[1])
-
-            iWidth = IMGsSize[0]
-            iHeight = IMGsSize[1]
-            c.setPageSize((iWidth, iHeight))
-
-            for i in range(len(ImageList)):
-                pageNum = c.getPageNumber()
-                c.drawImage(ImageList[i], x=0, y=0, width=iWidth, height=iHeight, mask=mask)
-                c.showPage()
-            c.save()
-            rmtree(DirLoc, ignore_errors=True)
-        
-            break
-
-        except OSError:
-            continue
-
+    try:
+        with open(Filename, 'wb') as pdf:
+            pdf.write(pdfConvert(ImageList))
+    except:
+        PrintInfo('PDF 제작에 오류가 발생했습니다.')
+    
+    finally:
+        rmtree(DirLoc, ignore_errors=True)
+    
 
 def GetSoup(queue, url):
     while True:
@@ -186,7 +175,7 @@ def ImageDownload(filename, url):
     while True:
         try:
             with open(f"{filename}", 'wb') as f:
-                resp = s.get(url, headers=header, ).content
+                resp = cdn.get(url, headers=header, ).content
                 f.write(resp)
                 break
 
@@ -219,17 +208,21 @@ def MakeDirectory(DirPath):
 
 
 def GetIMGsURL(gNum):
-    jsonURL = baseURL + f'/data/json/{gNum}_list.json'
-    imgURL = baseURL + f'/data/{gNum}/'
-    
+
+    jsonURL = 'https://cdn.hiyobi.me' + f'/data/json/{gNum}_list.json'
+    imgURL = 'https://cdn.hiyobi.me' + f'/data/{gNum}/'
+
     while True:
-        try: reqObj = s.get(jsonURL, headers=header, ).json(); break
-        except: pass
+        try:
+            reqObj = cdn.get(jsonURL, headers=header, ).json(); break
+        except:
+            continue
+
 
     ListOfIMGsURL = [imgURL + i['name'] for i in reqObj]
     return ListOfIMGsURL
-
-
+    
+    
 
 def GetGalleryInfo(gNum):
     infoURL = baseURL + f"/info/{gNum}"
@@ -246,7 +239,7 @@ def GetGalleryInfo(gNum):
     for gInfo in galleryInfos:
         info = gInfo.find_all('td')
         infoString += info[0].text + info[1].text + '\n\n'
-
+        
     return [title, infoString]
 
 

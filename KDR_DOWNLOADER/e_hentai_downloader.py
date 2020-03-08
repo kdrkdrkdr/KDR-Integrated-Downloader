@@ -2,7 +2,7 @@
 
 from bs4 import BeautifulSoup
 from requests import get, exceptions, Session, adapters
-from reportlab.pdfgen.canvas import Canvas
+from img2pdf import convert as pdfConvert
 from signal import signal, SIGINT, SIG_IGN
 from ping3 import ping
 from sys import exit as terminate
@@ -83,7 +83,7 @@ def PrintInfo(info):
 
 def PrintBanner():
     print('''
-마지막 수정 날짜 : 2020/01/03
+마지막 수정 날짜 : 2020/03/09
 제작자 : kdr (https://github.com/kdrkdrkdr/)
   ______      _    _            _        _                  
  |  ____|    | |  | |          | |      (_)                 
@@ -118,33 +118,15 @@ def GetIMGsSize(imgPath):
     return img.size
 
 
-
 def MakePDF(ImageList, Filename, DirLoc):
-    while True:
-        try:
-            c = Canvas(Filename)
-            mask = [0, 0, 0, 0, 0, 0]
-
-            if len(ImageList) == 1: 
-                IMGsSize = GetIMGsSize(ImageList[0])
-            else:
-                IMGsSize = GetIMGsSize(ImageList[1])
-
-            iWidth = IMGsSize[0]
-            iHeight = IMGsSize[1]
-            c.setPageSize((iWidth, iHeight))
-
-            for i in range(len(ImageList)):
-                pageNum = c.getPageNumber()
-                c.drawImage(ImageList[i], x=0, y=0, width=iWidth, height=iHeight, mask=mask)
-                c.showPage()
-            c.save()
-            rmtree(DirLoc, ignore_errors=True)
-        
-            break
-
-        except OSError:
-            continue
+    try:
+        with open(Filename, 'wb') as pdf:
+            pdf.write(pdfConvert(ImageList))
+    except:
+        PrintInfo('PDF 제작에 오류가 발생했습니다.')
+    
+    finally:
+        rmtree(DirLoc, ignore_errors=True)
 
 
 

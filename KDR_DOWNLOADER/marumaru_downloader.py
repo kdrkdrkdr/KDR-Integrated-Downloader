@@ -2,7 +2,7 @@
 
 from bs4 import BeautifulSoup
 from requests import get, exceptions, Session, adapters
-from reportlab.pdfgen.canvas import Canvas
+from img2pdf import convert as pdfConvert
 from signal import signal, SIGINT, SIG_IGN
 from ping3 import ping
 from sys import exit as terminate
@@ -19,7 +19,8 @@ from threading import Thread
 from queue import Queue
 
 
-baseURL = "https://marumaru.town"
+baseURL = "https://marumaru.vip"
+
 
 
 class HostHeaderSSLAdapter(adapters.HTTPAdapter):
@@ -29,7 +30,7 @@ class HostHeaderSSLAdapter(adapters.HTTPAdapter):
             '1.1.1.1',
             '1.0.0.1',
         ]
-        resolutions = {'marumaru.soy': choice(dnsList)}
+        resolutions = {'marumaru.vip': choice(dnsList)}
         return resolutions.get(hostname)
 
 
@@ -72,7 +73,7 @@ header = {
 
 def PrintBanner():
     print('''
-마지막 수정 날짜 : 2020/01/17
+마지막 수정 날짜 : 2020/03/09
 제작자 : kdr (https://github.com/kdrkdrkdr/)
  _ __ ___   __ _ _ __ _   _ _ __ ___   __ _ _ __ _   _ 
 | '_ ` _ \ / _` | '__| | | | '_ ` _ \ / _` | '__| | | |
@@ -119,37 +120,14 @@ def GetFileName(filename):
     return filename
 
 
-def GetIMGsSize(imgPath):
-    img = IMGOPEN(imgPath)
-    return img.size
 
 
 def MakePDF(ImageList, Filename, DirLoc):
-    while True:
-        try:
-            c = Canvas(Filename)
-            mask = [0, 0, 0, 0, 0, 0]
+    with open(Filename, 'wb') as pdf:
+        pdf.write(pdfConvert(ImageList))
+    rmtree(DirLoc, ignore_errors=True)
 
-            if len(ImageList) == 1: 
-                IMGsSize = GetIMGsSize(ImageList[0])
-            else:
-                IMGsSize = GetIMGsSize(ImageList[1])
 
-            iWidth = IMGsSize[0]
-            iHeight = IMGsSize[1]
-            c.setPageSize((iWidth, iHeight))
-
-            for i in range(len(ImageList)):
-                pageNum = c.getPageNumber()
-                c.drawImage(ImageList[i], x=0, y=0, width=iWidth, height=iHeight, mask=mask)
-                c.showPage()
-            c.save()
-            rmtree(DirLoc, ignore_errors=True)
-        
-            break
-
-        except OSError:
-            continue
 
 def GetSoup(queue, url):
     while True:
@@ -217,6 +195,7 @@ def MakeDirectory(DirPath):
 def GetImageURLs(mangaAddr):
     imgURLs = []
     soup = FastGetSoup(mangaAddr).find('div', {'class':'view-img'}).find_all('img')
+    print(soup)
     for i in soup:
         url = i['src']
         
@@ -225,6 +204,8 @@ def GetImageURLs(mangaAddr):
         imgURLs.append(url)
 
     return imgURLs
+
+
 
 
 def mSearch():
