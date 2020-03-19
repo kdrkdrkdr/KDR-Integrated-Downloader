@@ -34,13 +34,13 @@ https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases
 
 # 업데이트 사항
 
-- 2020/01/08
-    https://blog.naver.com/powerapollon/221776876695
+- 2020/01/08 
+    https://blog.naver.com/powerapollon/221776876695 
 
-- 2020/01/27
+- 2020/01/27 
     https://blog.naver.com/powerapollon/221786579854
 
-- 2020/03/09
-    https://blog.naver.com/powerapollon/221844283749
+- 2020/03/09 
+    https://blog.naver.com/powerapollon/221844283749 
 
 
