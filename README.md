@@ -30,3 +30,17 @@ https://github.com/kdrkdrkdr/KDR-Integrated-Downloader/releases
 # 주의사항
 이 프로그램을 불법적으로 사용시, 사용자 본인에게 책임이 있음을 알려드립니다.
 
+
+
+# 업데이트 사항
+
+- 2020/01/08
+    https://blog.naver.com/powerapollon/221776876695
+
+- 2020/01/27
+    https://blog.naver.com/powerapollon/221786579854
+
+- 2020/03/09
+    https://blog.naver.com/powerapollon/221844283749
+
+
