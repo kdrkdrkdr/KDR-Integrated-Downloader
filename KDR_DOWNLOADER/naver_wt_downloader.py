@@ -23,7 +23,7 @@ infoBanner = "[Naver-WebToon-Downloader]"
 
 header = {
     'User-agent' : 'Mozilla/5.0',
-    'Referer' : baseURL,
+    # 'Referer' : baseURL,
 }
 
 PrintInfo = lambda info: print(f"\n{infoBanner} {info}\n")
@@ -343,3 +343,5 @@ def main():
         except ( ValueError, KeyboardInterrupt, EOFError, NameError ):
             ClearWindow()
             PrintInfo('다시 선택해주세요.')
+
+main()

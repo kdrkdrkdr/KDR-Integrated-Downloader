@@ -391,12 +391,15 @@ def ToonDownload():
 
                 epiIMGsURL = GetIMGsURL(epiLink)
                 
+                
                 dirLoc = f"./{epiTitle}/"
                 imgLoc = []
 
                 MakeDirectory(dirLoc)
                 
                 clear()
+                print(epiIMGsURL)
+                
                 print(f'\n제목 : {title}'
                     + f'\n\n작가 : {author}'
                     + f'\n\n횟차 : {epi}화'
